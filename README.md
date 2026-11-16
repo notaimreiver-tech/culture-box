@@ -6,7 +6,7 @@ Mon site perso pour bosser ma culture générale : des quiz de 20 questions par 
 
 - **13 thèmes, 405 questions** : Histoire, Cinéma, Musique, Nature, Art, Géographie, Sciences, Littérature, Sport, Mythes & religions, Gastronomie, Langue française, BD/séries/jeux vidéo.
 - **Une explication + une source** (Wikipédia ou Wiktionnaire) après chaque réponse, et un récap en fin de quiz.
-- **Cash / Carré / Duo** à chaque question : tu tapes la réponse (XP x3, tolérance aux fautes de frappe), tu choisis parmi 4 propositions (x1) ou parmi 2 (x0,5).
+- **Cash d'abord** : tu tapes directement ta réponse (XP x3, tolérance aux fautes de frappe). Si tu sèches, Entrée à vide affiche 4 choix (x1), ou un bouton en affiche 2 (x0,5). Réglage « Carré direct » si tu préfères les propositions tout de suite.
 - **Répétition espacée** : chaque question revient après 1, 3, 7, 14, 30, 60 puis 120 jours si tu la sais. Une erreur la remet tout de suite dans tes révisions. Une bonne réponse en Cash fait avancer de deux crans.
 - **Modes** : Révisions dues, Défi du jour, Grand mélange, Éclair (60 s), Survie (mort subite), et quiz par thème.
 - **Mode chrono** : 25 s par question, bonus d'XP si tu réponds en moins de 8 s.

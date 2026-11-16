@@ -65,6 +65,7 @@
     try { s = Object.assign(fresh(), JSON.parse(localStorage.getItem(STORE)) || {}); } catch (e) { s = fresh(); }
     Object.values(s.q).forEach((st) => { if (st.due == null) st.due = (st.last || 0) + IV[Math.min(st.box || 0, 7)] * DAY; });
     s.records = s.records || {};
+    s.settings = Object.assign({ timer: false, fmt: 'cash' }, s.settings);
     return s;
   }
   function save() { try { localStorage.setItem(STORE, JSON.stringify(S)); } catch (e) { /* stockage indisponible */ } }
@@ -168,9 +169,15 @@
       </div>
 
       <div class="section-title"><h2>Modes de jeu</h2>
-        <label class="toggle" title="25 secondes par question, bonus d'XP si tu réponds vite">
-          <input type="checkbox" id="timerToggle" ${S.settings.timer ? 'checked' : ''}><span class="sw"></span> ⏱️ Chrono
-        </label>
+        <div class="settings">
+          <div class="seg" title="Comment les questions s'affichent">
+            <button data-fmt="cash" class="${S.settings.fmt === 'cash' ? 'on' : ''}">💰 Cash d'abord</button>
+            <button data-fmt="carre" class="${S.settings.fmt === 'carre' ? 'on' : ''}">🃏 Carré direct</button>
+          </div>
+          <label class="toggle" title="25 secondes par question, bonus d'XP si tu réponds vite">
+            <input type="checkbox" id="timerToggle" ${S.settings.timer ? 'checked' : ''}><span class="sw"></span> ⏱️ Chrono
+          </label>
+        </div>
       </div>
       <div class="modes">
         <button class="card mode" id="m-review" ${due ? '' : 'disabled'}>
@@ -198,7 +205,7 @@
           <p>Mort subite : tu joues jusqu'à la première erreur. Jusqu'où iras-tu ?</p>
         </button>
       </div>
-      <p class="tip">💡 <b>Le secret des champions :</b> réponds en <b>💰 Cash</b> dès que tu as une petite idée. Aller chercher la réponse dans ta mémoire, sans propositions, est ce qui l'ancre le mieux. Et fais tes révisions chaque jour : chaque question revient juste avant que tu l'oublies (1 j, 3 j, 7 j, 14 j, 1 mois…).</p>
+      <p class="tip">💡 <b>Le secret des champions :</b> en <b>💰 Cash d'abord</b>, tu tapes directement ta réponse, et si tu sèches, Entrée affiche les 4 choix. Aller chercher la réponse dans ta mémoire, sans propositions, est ce qui l'ancre le mieux. Et fais tes révisions chaque jour : chaque question revient juste avant que tu l'oublies (1 j, 3 j, 7 j, 14 j, 1 mois…).</p>
 
       <div class="section-title"><h2>Par thème</h2><span class="muted">${ALL.length} questions</span></div>
       <div class="themes">
@@ -212,6 +219,11 @@
       </div>`;
 
     $('#timerToggle').onchange = (e) => { S.settings.timer = e.target.checked; save(); toast(S.settings.timer ? '⏱️ Chrono activé : 25 s par question' : 'Chrono désactivé'); };
+    $$('[data-fmt]').forEach((b) => b.onclick = () => {
+      S.settings.fmt = b.dataset.fmt; save();
+      $$('[data-fmt]').forEach((x) => x.classList.toggle('on', x === b));
+      toast(S.settings.fmt === 'cash' ? '💰 Tu tapes la réponse, Entrée à vide pour voir 4 choix' : '🃏 Les 4 propositions s\'affichent directement');
+    });
     $('#m-review').onclick = startReview;
     $('#m-daily').onclick = startDaily;
     $('#m-mix').onclick = () => startQuiz({ mode: 'mix', title: 'Grand mélange', questions: pick(ALL, 20) });
@@ -277,30 +289,30 @@
         <div id="zone"></div>
         <div id="feedback"></div>
       </div>`;
-    if (Q.fast) chooseFormat('carre');
-    else {
-      $('#zone').innerHTML = `<div class="formats">
-        ${['cash', 'carre', 'duo'].map((f) => `<button class="fmt fmt-${f}" data-f="${f}"><span class="fe">${FMT[f].e}</span><b>${FMT[f].n}</b><small>${FMT[f].d}</small><kbd>${{ cash: 'C', carre: 'Entrée', duo: 'D' }[f]}</kbd></button>`).join('')}
-      </div>`;
-      $$('[data-f]').forEach((b) => b.onclick = () => chooseFormat(b.dataset.f));
-    }
+    // Pas d'étape de choix : on part directement en Cash (ou en Carré selon le réglage).
+    chooseFormat(Q.fast || S.settings.fmt === 'carre' ? 'carre' : 'cash');
     if (Q.timer) startTimer();
   }
 
   function chooseFormat(f) {
-    if (Q.phase !== 'format') return;
+    if (Q.phase !== 'format' && Q.phase !== 'cash') return;
     const item = Q.list[Q.i];
     item.fmt = f;
     if (f === 'cash') {
       Q.phase = 'cash';
       $('#zone').innerHTML = `<form class="cash" id="cashForm" autocomplete="off">
-          <input id="cashIn" placeholder="Ta réponse…" autocapitalize="off" spellcheck="false">
+          <input id="cashIn" placeholder="Tape ta réponse… (XP x3)" autocapitalize="off" spellcheck="false">
           <button class="btn primary">Valider</button>
-          <button type="button" class="btn" id="pass">Je sèche</button>
-        </form><div class="hint" style="margin-top:6px">Pas besoin d'accents ni de majuscules, et les petites fautes de frappe passent.</div>`;
-      $('#cashIn').focus();
-      $('#cashForm').onsubmit = (e) => { e.preventDefault(); const v = $('#cashIn').value; if (!v.trim()) return; grade(checkCash(v, item.q), v.trim()); };
-      $('#pass').onclick = () => grade(false, null);
+        </form>
+        <div class="fallback">
+          <button type="button" class="btn small" id="toCarre">🃏 4 choix <span class="muted">x1</span></button>
+          <button type="button" class="btn small" id="toDuo">✌️ 2 choix <span class="muted">x0,5</span></button>
+          <span class="hint">Entrée sans rien taper = 4 choix · pas besoin d'accents</span>
+        </div>`;
+      $('#cashIn').focus({ preventScroll: true });
+      $('#cashForm').onsubmit = (e) => { e.preventDefault(); const v = $('#cashIn').value; if (!v.trim()) return chooseFormat('carre'); grade(checkCash(v, item.q), v.trim()); };
+      $('#toCarre').onclick = () => chooseFormat('carre');
+      $('#toDuo').onclick = () => chooseFormat('duo');
       return;
     }
     Q.phase = 'choices';

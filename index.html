@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Culture Box</title>
+  <meta name="description" content="Mon entraînement perso de culture générale : quiz, explications sourcées, progression.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="#" class="logo" data-act="home">🧠 Culture<span>Box</span></a>
+    <nav>
+      <button class="navbtn" data-act="home">Jouer</button>
+      <button class="navbtn" data-act="stats">Progression</button>
+    </nav>
+  </header>
+
+  <main id="app"></main>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <!-- Banques de questions : ajoute un fichier ici pour ajouter un thème -->
+  <script src="data/histoire.js"></script>
+  <script src="data/cinema.js"></script>
+  <script src="data/musique.js"></script>
+  <script src="data/nature.js"></script>
+  <script src="data/art.js"></script>
+  <script src="data/geographie.js"></script>
+  <script src="data/sciences.js"></script>
+  <script src="data/litterature.js"></script>
+  <script src="data/sport.js"></script>
+  <script src="data/mythologie.js"></script>
+  <script src="data/gastronomie.js"></script>
+  <script src="data/langue.js"></script>
+  <script src="data/popculture.js"></script>
+  <!-- Lots bonus : ils s'ajoutent aux thèmes existants (même id) -->
+  <script src="data/bonus-1.js"></script>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -53,6 +53,11 @@
   const srcUrl = (s) => /^https?:\/\//.test(s) ? s
     : s.startsWith('wikt:') ? 'https://fr.wiktionary.org/wiki/Special:Search?go=Go&search=' + encodeURIComponent(s.slice(5))
       : 'https://fr.wikipedia.org/wiki/Special:Search?go=Go&search=' + encodeURIComponent(s);
+  // Source sur demande : celle de la question si elle existe, sinon une recherche Wikipédia sur la réponse.
+  const srcFor = (q) => q.s ? srcUrl(q.s)
+    : /[a-zA-ZÀ-ÿ]{3}/.test(q.a) && q.a.length < 60 ? srcUrl(q.a.replace(/^(Le |La |Les |L'|Un |Une )/, ''))
+      : 'https://fr.wikipedia.org/w/index.php?fulltext=1&search=' + encodeURIComponent(q.q);
+  const srcBtn = (q) => `<a class="btn small srcbtn" href="${srcFor(q)}" target="_blank" rel="noopener">🔎 Voir la source</a>`;
   const srcLabel = (s) => /^https?:\/\//.test(s) ? new URL(s).hostname.replace('www.', '') : s.startsWith('wikt:') ? 'Wiktionnaire — ' + s.slice(5) : 'Wikipédia — ' + s;
 
   // ---------- sauvegarde ----------
@@ -399,10 +404,9 @@
     $('#feedback').innerHTML = `
       <div class="card feedback ${item.ok ? 'ok' : 'ko'}">
         <div class="verdict">${verdict}</div>
-        <p>${esc(q.e)}</p>
-        <span class="source">📚 Source : <a href="${srcUrl(q.s)}" target="_blank" rel="noopener">${esc(srcLabel(q.s))}</a></span>
+        <p class="explain">${esc(q.e)}</p>
         <div class="row">
-          ${item.fmt === 'cash' && !item.ok && item.picked ? '<button class="btn small" id="override">J\'avais bon (faute de frappe)</button>' : '<span class="hint">Entrée pour continuer</span>'}
+          <span style="display:flex;gap:8px;flex-wrap:wrap">${srcBtn(q)}${item.fmt === 'cash' && !item.ok && item.picked ? '<button class="btn small" id="override">J\'avais bon (faute de frappe)</button>' : ''}</span>
           <button class="btn primary" id="next">${last ? 'Voir le résultat 🏁' : Q.fast ? 'Continuer ▶' : 'Question suivante →'}</button>
         </div>
       </div>`;
@@ -507,7 +511,7 @@
               <summary>${r.ok ? '✅' : '❌'} <span>${i + 1}. ${esc(q.q)} <small class="muted">${FMT[r.fmt].e}</small></span></summary>
               <div class="ans">Réponse : <b class="ok">${esc(q.a)}</b>${r.ok ? '' : ` · toi : <b class="ko">${r.picked ? esc(r.picked) : 'pas de réponse'}</b>`}</div>
               <p class="muted" style="margin:6px 0">${esc(q.e)}</p>
-              <span class="source">📚 <a href="${srcUrl(q.s)}" target="_blank" rel="noopener">${esc(srcLabel(q.s))}</a></span>
+              ${srcBtn(q)}
             </details>`; }).join('') || '<p class="muted">Aucune question jouée.</p>'}
         </div>
       </div>`;

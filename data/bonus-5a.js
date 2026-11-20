@@ -1,8 +1,6 @@
 // Lot bonus 5a
 (window.THEMES = window.THEMES || []).push(
 { id: 'histoire', questions: [
-  { q: "Quelle cité grecque remporte la bataille de Marathon en 490 av. J.-C. ?", a: "Athènes", w: ["Sparte", "Corinthe", "Thèbes"],
-    e: "Les Athéniens repoussent l'armée perse envoyée par Darius Ier lors de la première guerre médique. Selon la légende, le messager Phidippidès serait mort d'épuisement après avoir couru annoncer la victoire." },
   { q: "Qui fut le précepteur d'Alexandre le Grand ?", a: "Aristote", w: ["Platon", "Socrate", "Xénophon"],
     e: "Philippe II de Macédoine appelle le philosophe vers 343 av. J.-C. pour former son fils adolescent. Aristote lui aurait transmis le goût de la science et d'Homère, dont Alexandre gardait l'Iliade près de lui." },
   { q: "Quelle bataille de 202 av. J.-C. met fin à la deuxième guerre punique ?", a: "Zama", w: ["Cannes", "Trasimène", "Actium"],
@@ -93,7 +91,5 @@
     e: "Cette formule latine figure sur le Grand sceau des États-Unis et fait allusion à la fusion de treize colonies en une seule nation. Elle a longtemps été la devise officielle avant « In God We Trust », adoptée en 1956." },
   { q: "Que mesure l'indice de Gini ?", a: "Les inégalités de revenus", w: ["L'inflation", "Le chômage", "La croissance économique"], k: ["inégalités", "inégalités de revenus"],
     e: "Cet indicateur, créé par le statisticien italien Corrado Gini, va de 0 (égalité parfaite) à 1 (un seul individu possède tout). Il permet de comparer la répartition des richesses entre pays." },
-  { q: "En quelle année l'Organisation des Nations unies est-elle fondée ?", a: "1945", w: ["1919", "1948", "1950"],
-    e: "Elle succède à la Société des Nations, qui n'avait pas pu empêcher la Seconde Guerre mondiale. Sa charte, signée à San Francisco en juin 1945, entre en vigueur en octobre." },
 ]}
 );

@@ -4,7 +4,7 @@ Mon site perso pour bosser ma culture générale : des quiz de 20 questions par 
 
 ## Fonctionnalités
 
-- **15 thèmes, 601 questions** : Histoire, Cinéma, Musique, Nature, Art, Géographie, Sciences, Littérature, Sport, Mythes & religions, Gastronomie, Langue française, BD/séries/jeux vidéo, Inventions & tech, Monde & société.
+- **15 thèmes, 821 questions** : Histoire, Cinéma, Musique, Nature, Art, Géographie, Sciences, Littérature, Sport, Mythes & religions, Gastronomie, Langue française, BD/séries/jeux vidéo, Inventions & tech, Monde & société.
 - **Une explication détaillée** (le contexte, le « pourquoi ») après chaque réponse, et un bouton « Voir la source » qui lance une recherche Wikipédia à la demande.
 - **Cash d'abord** : tu tapes directement ta réponse (XP x3, tolérance aux fautes de frappe). Si tu sèches, Entrée à vide affiche 4 choix (x1), ou un bouton en affiche 2 (x0,5). Réglage « Carré direct » si tu préfères les propositions tout de suite.
 - **Répétition espacée** : chaque question revient après 1, 3, 7, 14, 30, 60 puis 120 jours si tu la sais. Une erreur la remet tout de suite dans tes révisions. Une bonne réponse en Cash fait avancer de deux crans.
